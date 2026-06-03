@@ -3,6 +3,11 @@ set -e
 
 echo "Instalando..."
 
+echo ""
+echo "instalar o Capacitor.JS:"
+npm install @capacitor/core @capacitor/cli
+
+clear
 
 cat << "EOF"
 
@@ -16,9 +21,6 @@ cat << "EOF"
 
 EOF
 
-echo ""
-echo "instalar o Capacitor.JS:"
-npm install @capacitor/core @capacitor/cli
 echo ""
 echo "inicialize o Capacitor no seu projeto:"
 echo "'npx cap init'"
