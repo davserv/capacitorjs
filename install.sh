@@ -18,19 +18,18 @@ cat << "EOF"
 ████  █   █   █   ████  █████ █   █   █   
 
     ISTALLER CAPACITOR.JS PACKAGE
-
 EOF
 
-echo ""
+echo "──────────────────────────────────────"
 echo "inicialize o Capacitor no seu projeto:"
 echo "'npx cap init'"
-echo ""
-echo "Precisa instalá-lo primeiro em seu projeto"
+echo "──────────────────────────────────────"
+echo "instalá-lo primeiro em seu projeto"
 echo "'npm install @capacitor/android'"
-echo ""
+echo "──────────────────────────────────────"
 echo "adicione as plataformas desejadas"
 echo "'npx cap add android'"
-echo ""
+echo "──────────────────────────────────────"
 echo "construir sua aplicação web"
 echo "'npx cap copy'"
-echo ""
+echo "──────────────────────────────────────"
