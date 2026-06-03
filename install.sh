@@ -6,34 +6,28 @@ echo "Instalando..."
 
 cat << "EOF"
 
-████  █████ ████  █████ █   █      ████  ████  
-█   █ █     █   █ █     █  █       █   █ █   █ 
-████  ████  █   █ ████  ███   ████ █   █ ████  
-█  █  █     █   █ █     █  █       █   █ █   █ 
-█   █ █████ ████  █████ █   █      ████  ████ 
+████   ███  █   █  ████ █████ ████  █   █ 
+█   █ █   █ █   █ █     █     █   █ █   █ 
+█   █ █████ █   █  ███  ████  ████  █   █ 
+█   █ █   █  █ █      █ █     █  █   █ █  
+████  █   █   █   ████  █████ █   █   █   
 
-             ISTALLER DEBIAN-WEB
+    ISTALLER CAPACITOR.JS PACKAGE
 
 EOF
 
 echo ""
-echo "Construindo a imagem Docker:"
-cat << 'EOF' > docker-compose.yml
-services:
-  debian-desktop:
-    image: lscr.io/linuxserver/webtop:debian-xfce
-    container_name: debian_gui
-    privileged: true
-    ports:
-      - '6080:3000'
-EOF
+echo "instalar o Capacitor.JS:"
+npm install @capacitor/core @capacitor/cli
 echo ""
-echo "Execute o container:"
-
-docker compose down
-docker compose up -d
-docker logs -f debian_gui
-
+echo "inicialize o Capacitor no seu projeto:"
+npx cap init
 echo ""
-echo "localhost:6080/"
+echo "Precisa instalá-lo primeiro em seu projeto"
+npm install @capacitor/android
+echo ""
+echo "adicione as plataformas desejadas"
+npx cap add android
+echo "construir sua aplicação web"
+npx cap copy
 echo ""

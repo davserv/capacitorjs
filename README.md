@@ -18,6 +18,23 @@ git clone https://github.com/davserv/capacitorjs.git
 cd capacitorjs
 ```
 
+--------
+
+### INSTALL - LINUX / MACOS / WSL2
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/davserv/capacitorjs/main/install.sh | bash
+```
+--------
+
+### COMANDO INSTALL
+
+```bash
+chmod +x install.sh && ./install.sh
+```
+--------
+
+
 ### Execute este comando para instalar o Capacitor:
 
 ```bash
