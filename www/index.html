@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>VIRTUAL ASSISTANT | POWERED BY DECOM-IA</title>
+    <meta name="description" content="VIRTUAL ASSISTANT É UM CHATBOT ASSISTENTE DE IA. POWERED BY DECOM-IA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="application-name" content="VIRTUAL ASSISTANT" />
+    <meta name="apple-mobile-web-app-title" content="VIRTUAL ASSISTANT" />
+    <meta name="msapplication-starturl" content="/?Installed=virtualassistant" />
+    <meta name="theme-color" content="#111" />
+    <meta name="msapplication-navbutton-color" content="#111" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <meta property="og:image" content="./d-framework/icon/app.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="./d-framework/icon/app.png" />
+    <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="./d-framework/icon/app.png" />
+    <link rel="stylesheet" href="./d-framework/cdn/css/bootstrap.min.css" />
+
+    <style>
+        .boxdbshadow {
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28) !important;
+        }
+
+        .boxdbshadowy {
+            box-shadow: 0 -9px 9px 0 rgba(0, 0, 0, 0.301),
+                0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+        }
+
+        .boxdtext {
+            text-shadow: 1px 1px 2px #111 !important;
+        }
+
+        .bg-hover:hover,
+        .bg-hover:focus,
+        .bg-hover:active,
+        .bg-hover:target {
+            opacity: 0.45 !important;
+        }
+
+        .chatContainer {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512' opacity='0.25' fill='%23fff9' width='30' height='30'%3E%3Cpath d='M352 0c0-17.7-14.3-32-32-32S288-17.7 288 0l0 64-96 0c-53 0-96 43-96 96l0 224c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-224c0-53-43-96-96-96l-96 0 0-64zM160 368c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0c-13.3 0-24-10.7-24-24zm120 0c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0c-13.3 0-24-10.7-24-24zm120 0c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0c-13.3 0-24-10.7-24-24zM224 176a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm144 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM64 224c0-17.7-14.3-32-32-32S0 206.3 0 224l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96zm544-32c-17.7 0-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32z' /%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            background-size: 200px !important;
+        }
+
+
+        /* Animações originais mantidas */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .agent-avatar {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .typing-indicator {
+            display: inline-block;
+        }
+
+        .typing-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #4f46e5;
+            /* Indigo-600 */
+            margin: 0 2px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .chat-container {
+            transition: all 0.3s ease;
+        }
+
+        .message {
+            max-width: 100%;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .input-container {
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Chat bubbles */
+        .bubble-user {
+            background-color: #4f46e5;
+            /* indigo-600 */
+            color: white;
+            border-radius: 1rem;
+            border-bottom-right-radius: 0;
+        }
+
+        .bubble-agent {
+            background-color: #e5e7eb;
+            /* gray-200 */
+            color: #1f2937;
+            /* gray-800 */
+            border-radius: 1rem;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Altura do container principal */
+
+        .chat-card {
+            height: 85vh;
+            max-height: 700px;
+        }
+
+        @media (min-width: 576px) {
+            .chat-card {
+                height: 600px;
+            }
+        }
+
+        /* Botões do header */
+        .header-btn {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            min-height: 28px;
+        }
+
+        /* Input e botão de envio */
+        .chat-input {
+            min-height: 44px;
+            border-radius: 50rem;
+        }
+
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column">
+
+    <!-- MENU -->
+    <div class="offcanvas offcanvas-start z-12" tabindex="-1" id="offcanvasmenu" aria-labelledby="offcanvasmenuLabel"
+        style="width: 280px;">
+        <div class="offcanvas-header shadow bg-body-tertiary">
+            <h5 class="offcanvas-title" id="offcanvasmenuLabel"><i class="bcolumns-gap pe-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill='#fff' width='30' height='30'>
+                        <path
+                            d="M352 0c0-17.7-14.3-32-32-32S288-17.7 288 0l0 64-96 0c-53 0-96 43-96 96l0 224c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-224c0-53-43-96-96-96l-96 0 0-64zM160 368c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0c-13.3 0-24-10.7-24-24zm120 0c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0c-13.3 0-24-10.7-24-24zm120 0c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0c-13.3 0-24-10.7-24-24zM224 176a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm144 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM64 224c0-17.7-14.3-32-32-32S0 206.3 0 224l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96zm544-32c-17.7 0-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32z" />
+                    </svg>
+                </i> MENU</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+
+            <div class="fw-light fs-6 text-uppercase">
+                ❝ Aplicativos para várias plataformas by Developer Davidsonbpe.❞
+            </div>
+            <hr>
+            <div class="d-grid gap-2">
+                <button type="button" onclick="javascript:window.open('https://github.com/davidsonbpe')"
+                    class="mt-1 btn btn-secondary rounded-0 text-start fs-6 text-uppercase opacity-75">
+                    <i class="bottilll float-start pe-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width='20' height='20'>
+                            <path fill="rgb(99, 230, 190)"
+                                d="M288 64c0 17.7-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l224 0c17.7 0 32 14.3 32 32zm0 256c0 17.7-14.3 32-32 32L32 352c-17.7 0-32-14.3-32-32s14.3-32 32-32l224 0c17.7 0 32 14.3 32 32zM0 192c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 224c-17.7 0-32-14.3-32-32zM448 448c0 17.7-14.3 32-32 32L32 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                        </svg>
+                    </i> GitHub
+                </button>
+                <button type="button" onclick="javascript:window.open('https://codepen.io/davidsonbpe')"
+                    class="mt-1 btn btn-secondary rounded-0 text-start fs-6 text-uppercase opacity-75">
+                    <i class="justify-left float-start pe-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width='20' height='20'>
+                            <path fill="rgb(99, 230, 190)"
+                                d="M288 64c0 17.7-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l224 0c17.7 0 32 14.3 32 32zm0 256c0 17.7-14.3 32-32 32L32 352c-17.7 0-32-14.3-32-32s14.3-32 32-32l224 0c17.7 0 32 14.3 32 32zM0 192c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 224c-17.7 0-32-14.3-32-32zM448 448c0 17.7-14.3 32-32 32L32 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                        </svg>
+                    </i> CodePen
+                </button>
+                <button type="button" onclick="javascript:window.open('https://pag.ae/7Y3uUnhg8')"
+                    class="mt-1 btn btn-secondary rounded-0 text-start fs-6 text-uppercase opacity-75">
+                    <i class="justify-left float-start pe-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width='20' height='20'>
+                            <path fill="rgb(99, 230, 190)"
+                                d="M288 64c0 17.7-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l224 0c17.7 0 32 14.3 32 32zm0 256c0 17.7-14.3 32-32 32L32 352c-17.7 0-32-14.3-32-32s14.3-32 32-32l224 0c17.7 0 32 14.3 32 32zM0 192c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 224c-17.7 0-32-14.3-32-32zM448 448c0 17.7-14.3 32-32 32L32 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                        </svg>
+                    </i> Doar com
+                </button>
+                <button type="button" title="INFORMAR"
+                    onclick="javascript:alert(document.title+' | '+document.querySelector('meta[name=description]').getAttribute('content'));"
+                    class="mt-1 btn btn-secondary rounded-0 text-start fs-6 text-uppercase opacity-75">
+                    <i class="justify-left float-start pe-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width='20' height='20'>
+                            <path fill="rgb(99, 230, 190)"
+                                d="M288 64c0 17.7-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l224 0c17.7 0 32 14.3 32 32zm0 256c0 17.7-14.3 32-32 32L32 352c-17.7 0-32-14.3-32-32s14.3-32 32-32l224 0c17.7 0 32 14.3 32 32zM0 192c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 224c-17.7 0-32-14.3-32-32zM448 448c0 17.7-14.3 32-32 32L32 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                        </svg>
+                    </i> Informar
+                </button>
+                <button onclick="javascript:window.open('https://davidsonbpe.blogspot.com/')"
+                    class="mt-1 btn btn-secondary rounded-0 text-start fs-6 text-uppercase opacity-75" type="button">
+                    <i class="justify-left float-start pe-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width='20' height='20'>
+                            <path fill="rgb(99, 230, 190)"
+                                d="M288 64c0 17.7-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l224 0c17.7 0 32 14.3 32 32zm0 256c0 17.7-14.3 32-32 32L32 352c-17.7 0-32-14.3-32-32s14.3-32 32-32l224 0c17.7 0 32 14.3 32 32zM0 192c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 224c-17.7 0-32-14.3-32-32zM448 448c0 17.7-14.3 32-32 32L32 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                        </svg>
+                    </i> Developer
+                </button>
+                <button type="button" onclick="window.open('https://compartilharurl.pages.dev/?url=https://dav7.pages.dev/', 'Compartilhar', 'width=800,height=550');"
+                    class="mt-1 btn btn-secondary rounded-0 text-start fs-6 text-uppercase opacity-75">
+                    <i class="justify-left float-start pe-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width='20' height='20'>
+                            <path fill="rgb(99, 230, 190)"
+                                d="M288 64c0 17.7-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l224 0c17.7 0 32 14.3 32 32zm0 256c0 17.7-14.3 32-32 32L32 352c-17.7 0-32-14.3-32-32s14.3-32 32-32l224 0c17.7 0 32 14.3 32 32zM0 192c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 224c-17.7 0-32-14.3-32-32zM448 448c0 17.7-14.3 32-32 32L32 480c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                        </svg>
+                    </i> Compartilhar
+                </button>
+            </div>
+        </div>
+
+        <div class="container text-center text-muted small text-uppercase">
+            <p>© <span id="datacedencer">2026</span> DECOM-IA</p>
+        </div>
+
+        <div class="p-2 border-top">
+
+            <button type="button" class="btn btn-secondary rounded-0 fs-6 ps-4 pe-4 text-uppercase float-end opacity-75"
+                data-bs-dismiss="offcanvas">Sair</button>
+        </div>
+    </div>
+    <!-- MENU -->
+
+    <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center w-100">
+        <!-- Container principal -->
+        <div class="w-100 bg-white rounded-0 shadow-lg overflow-hidden d-flex flex-column chat-card">
+
+            <!-- Header -->
+            <div class="bg-primary text-white p-3 d-flex align-items-center flex-shrink-0 boxdbshadow">
+                <div class="agent-avatar rounded-circle bg-white d-flex align-items-center justify-content-center text-primary me-2 flex-shrink-0"
+                    style="width: 40px; height: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill='#0d6efd' width='30' height='30'>
+                        <path
+                            d="M352 0c0-17.7-14.3-32-32-32S288-17.7 288 0l0 64-96 0c-53 0-96 43-96 96l0 224c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-224c0-53-43-96-96-96l-96 0 0-64zM160 368c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0c-13.3 0-24-10.7-24-24zm120 0c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0c-13.3 0-24-10.7-24-24zm120 0c0-13.3 10.7-24 24-24l32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0c-13.3 0-24-10.7-24-24zM224 176a48 48 0 1 1 0 96 48 48 0 1 1 0-96zm144 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM64 224c0-17.7-14.3-32-32-32S0 206.3 0 224l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96zm544-32c-17.7 0-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32z" />
+                    </svg>
+                </div>
+                <div class="flex-grow-1 min-width-0">
+                    <h2 class="fw-bold mb-0 text-truncate text-uppercase" style="font-size: 1rem;">Virtual Assistant
+                    </h2>
+                    <p class="mb-0 opacity-75 text-truncate text-uppercase" style="font-size: 0.75rem;">Powered by
+                        DECOM-IA</p>
+                </div>
+                <div class="d-flex gap-1 flex-shrink-0">
+
+                    <button
+                        class="header-btn rounded-0 bg-primary d-flex align-items-center justify-content-center border-0 bg-hover"
+                        title="MENU" data-bs-toggle="offcanvas" data-bs-target="#offcanvasmenu"
+                        aria-controls="offcanvasmenu">
+                        <i class="" style="font-size: 0.75rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width='30' height='30'>
+                                <path fill="rgb(99, 230, 190)"
+                                    d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                            </svg>
+                        </i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat container -->
+            <div id="chatContainer" class="chatContainer flex-grow-1 p-3 overflow-y-auto bg-dark">
+                <!-- Mensagens inseridas via JavaScript -->
+            </div>
+
+            <!-- Input area -->
+            <div class="input-container bg-body-tertiary p-3 border-top flex-shrink-0"
+                style="width: 100%;position: fixed;bottom: 0px;">
+                <form id="chatForm" class="d-flex gap-2">
+                    <input type="text" id="userQuery" placeholder="Pergunte-me qualquer coisa..."
+                        class="form-control chat-input flex-grow-1 border-secondary-subtle focus-ring focus-ring-indigo bg-body-tertiary"
+                        autocomplete="off" inputmode="text" aria-label="Digite sua mensagem"
+                        style="--bs-focus-ring-color: #4f46e5;">
+                    <button type="submit"
+                        class="bg-hover btn btn-primary send-btn d-flex align-items-center justify-content-center flex-shrink-0 border-0"
+                        aria-label="Enviar mensagem" style="background-color: #4f46e5;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill='#fff' width='30'
+                            height='30'>
+                            <path
+                                d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9L229.2 276.1c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8l496.9-178z" />
+                        </svg>
+                    </button>
+                </form>
+                <p class="text-muted mt-2 text-center px-2 small" style="font-size: 0.75rem;">
+                    Sua consulta será redirecionada para o melhor modelo de ia em sua respostas.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="./d-framework/cdn/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatContainer = document.getElementById('chatContainer');
+            const chatForm = document.getElementById('chatForm');
+            const userQuery = document.getElementById('userQuery');
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            // Foco automático no input (com ajuste para mobile)
+            if (!isMobile) {
+                userQuery.focus();
+            }
+
+            // Mensagem inicial
+            setTimeout(() => {
+                addMessage('🤖 Olá! Sou seu assistente virtual. Como posso te ajudar hoje?', 'agent');
+            }, 500);
+
+            // Submit do formulário
+            chatForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const query = userQuery.value.trim();
+
+                if (query) {
+                    addMessage(query, 'user');
+                    userQuery.value = '';
+
+                    if (isMobile) {
+                        userQuery.blur();
+                    }
+
+                    const typingId = showTypingIndicator();
+
+                    setTimeout(() => {
+                        removeTypingIndicator(typingId);
+                        addMessage('🤖 Vou redirecioná-lo para o melhor modelo de ia e sua pergunta vai obter a melhor resposta!', 'agent');
+
+                        setTimeout(() => {
+                            const redirectId = showTypingIndicator();
+                            setTimeout(() => {
+                                removeTypingIndicator(redirectId);
+                                addMessage(`<a class="bg-hover btn btn-light" href="https://chatgpt.com/?prompt=${encodeURIComponent(query)}" title="${query}" target="_blank" role="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width='20' height='20'><path fill="#222" d="M196.4 185.8l0-48.6c0-4.1 1.5-7.2 5.1-9.2l97.8-56.3c13.3-7.7 29.2-11.3 45.6-11.3 61.4 0 100.4 47.6 100.4 98.3 0 3.6 0 7.7-.5 11.8L343.3 111.1c-6.1-3.6-12.3-3.6-18.4 0L196.4 185.8zM424.7 375.2l0-116.2c0-7.2-3.1-12.3-9.2-15.9L287 168.4 329 144.3c3.6-2 6.7-2 10.2 0L437 200.7c28.2 16.4 47.1 51.2 47.1 85 0 38.9-23 74.8-59.4 89.6l0 0zM166.2 272.8l-42-24.6c-3.6-2-5.1-5.1-5.1-9.2l0-112.6c0-54.8 42-96.3 98.8-96.3 21.5 0 41.5 7.2 58.4 20L175.4 108.5c-6.1 3.6-9.2 8.7-9.2 15.9l0 148.5 0 0zm90.4 52.2l-60.2-33.8 0-71.7 60.2-33.8 60.2 33.8 0 71.7-60.2 33.8zm38.7 155.7c-21.5 0-41.5-7.2-58.4-20l100.9-58.4c6.1-3.6 9.2-8.7 9.2-15.9l0-148.5 42.5 24.6c3.6 2 5.1 5.1 5.1 9.2l0 112.6c0 54.8-42.5 96.3-99.3 96.3l0 0zM173.8 366.5L76.1 310.2c-28.2-16.4-47.1-51.2-47.1-85 0-39.4 23.6-74.8 59.9-89.6l0 116.7c0 7.2 3.1 12.3 9.2 15.9l128 74.2-42 24.1c-3.6 2-6.7 2-10.2 0zm-5.6 84c-57.9 0-100.4-43.5-100.4-97.3 0-4.1 .5-8.2 1-12.3l100.9 58.4c6.1 3.6 12.3 3.6 18.4 0l128.5-74.2 0 48.6c0 4.1-1.5 7.2-5.1 9.2l-97.8 56.3c-13.3 7.7-29.2 11.3-45.6 11.3l0 0zm127 60.9c62 0 113.7-44 125.4-102.4 57.3-14.9 94.2-68.6 94.2-123.4 0-35.8-15.4-70.7-43-95.7 2.6-10.8 4.1-21.5 4.1-32.3 0-73.2-59.4-128-128-128-13.8 0-27.1 2-40.4 6.7-23-22.5-54.8-36.9-89.6-36.9-62 0-113.7 44-125.4 102.4-57.3 14.8-94.2 68.6-94.2 123.4 0 35.8 15.4 70.7 43 95.7-2.6 10.8-4.1 21.5-4.1 32.3 0 73.2 59.4 128 128 128 13.8 0 27.1-2 40.4-6.7 23 22.5 54.8 36.9 89.6 36.9z"/></svg> ChatGPT</a>`, 'agent');
+                                /* 
+                                setTimeout(() => {
+                                    window.location.href = `https://chatgpt.com/?q=${encodeURIComponent(query)}`;
+                                }, 1500);
+                                */
+                            }, 1000);
+                        }, 800);
+                    }, 1500);
+                }
+            });
+
+            // Função para adicionar mensagem
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message d-flex ${sender === 'user' ? 'justify-content-end ms-auto' : 'justify-start me-auto'}`;
+
+                const bubble = document.createElement('div');
+                bubble.className = `chat-bubble px-4 py-2 mt-3 ${sender === 'user' ? 'bubble-user' : 'bubble-agent'}`;
+                bubble.innerHTML = text;
+
+                messageDiv.appendChild(bubble);
+                chatContainer.appendChild(messageDiv);
+
+                scrollToBottom();
+
+                setTimeout(() => {
+                    messageDiv.classList.add('visible');
+                    scrollToBottom();
+                }, 50);
+            }
+
+            // Indicador de digitação
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message d-flex justify-start me-auto';
+                typingDiv.id = 'typing-' + Date.now();
+
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble-agent px-4 py-2';
+                /*bubble.className = 'bubble-agent px-4 py-2';*/
+
+                const dots = document.createElement('div');
+                dots.className = 'typing-indicator';
+                dots.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+
+                bubble.appendChild(dots);
+                typingDiv.appendChild(bubble);
+                chatContainer.appendChild(typingDiv);
+
+                scrollToBottom();
+
+                setTimeout(() => {
+                    typingDiv.classList.add('visible');
+                }, 50);
+
+                return typingDiv.id;
+            }
+
+            function removeTypingIndicator(id) {
+                const typingElement = document.getElementById(id);
+                if (typingElement) {
+                    typingElement.remove();
+                }
+            }
+
+            // Scroll suave para o final do chat
+            function scrollToBottom() {
+                chatContainer.scrollTo({
+                    top: chatContainer.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
+
+            // Ajuste de altura ao redimensionar
+            window.addEventListener('resize', function () {
+                scrollToBottom();
+            });
+        });
+        /*shared*/
+        function sharesbutton() {
+            navigator.share({
+                title: document.title,
+                text: "COMPARTILHAR " + document.title + " \n",
+                url: window.location.href
+            });
+        }
+
+        var creditsyear = new Date();
+        document.getElementById("datacedencer").innerHTML = creditsyear.getFullYear();
+    </script>
+</body>
+
+</html>
